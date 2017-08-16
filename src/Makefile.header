@@ -1,0 +1,6 @@
+CC = gcc
+CXX = g++
+CFLAGS = -Wall -Wextra -Waddress -Wconversion
+LDFLAGS = 
+PROJECT_ROOT = /home/void001/udp-tcp/udp-tunnel/src
+CPPFLAGS = -I $(PROJECT_ROOT)/include
