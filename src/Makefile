@@ -1,6 +1,6 @@
 include Makefile.header
 
-OBJS = log.o main.o tun_alloc.o
+OBJS = log.o main.o tun_alloc.o packet.o
 
 .PHONY = clean test all
 
@@ -9,6 +9,7 @@ run: udp-tunnel
 
 udp-tunnel: $(OBJS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $^
+	sudo setcap CAP_NET_ADMIN+eip udp-tunnel
 
 .c.o:
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $*.o $<

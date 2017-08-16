@@ -11,5 +11,6 @@
 
 int tun_alloc(char *dev);
 void hexstr(char *dest, void *addr, int size_n);
+int read_ip_header(int fd);
 
 #endif
