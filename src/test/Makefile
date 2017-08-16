@@ -1,6 +1,6 @@
 include ../Makefile.header
-TESTOBJS = test_log.o test_main.o
-OBJS = ../log.o
+TESTOBJS = test_log.o test_main.o test_net.o
+OBJS = ../log.o ../tun_alloc.o
 
 
 #CFLAGS = -Wall -Wextra -Waddress -Wconversion -g
@@ -9,6 +9,7 @@ OBJS = ../log.o
 
 testsuite: $(OBJS) $(TESTOBJS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $^
+	sudo setcap CAP_NET_ADMIN+eip testsuite
 
 .c.o:
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $*.o $<

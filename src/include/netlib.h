@@ -1,11 +1,14 @@
 /*************************************************************************
-    > File Name: udp.c
+    > File Name: netlib.h
     > Author: VOID_133
     > ################### 
     > Mail: ################### 
-    > Created Time: Wed 16 Aug 2017 11:08:11 AM CST
+    > Created Time: Wed 16 Aug 2017 03:49:53 PM CST
  ************************************************************************/
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
 
+#ifndef _NETLIB_H
+#define _NETLIB_H
+
+int tun_alloc(char *dev);
+
+#endif

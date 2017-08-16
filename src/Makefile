@@ -1,6 +1,6 @@
 include Makefile.header
 
-OBJS = log.o main.o
+OBJS = log.o main.o tun_alloc.o
 
 .PHONY = clean test all
 
