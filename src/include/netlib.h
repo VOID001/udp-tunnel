@@ -8,9 +8,10 @@
 
 #ifndef _NETLIB_H
 #define _NETLIB_H
+#include <stddef.h>
 
 int tun_alloc(char *dev);
-void hexstr(char *dest, void *addr, int size_n);
 int read_ip_header(int fd);
+void hexstr(char *dest, void *addr, size_t size_n);
 
 #endif

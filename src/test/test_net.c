@@ -27,3 +27,15 @@ void test_tun_alloc() {
         log_errorf(__func__, "failed");
     }
 }
+
+void test_read_ip_header() {
+    char tun_name[] = "udptun";
+    int tun, err;
+    if ((tun = tun_alloc(tun_name)) < 0) {
+        log_errorf(__func__, "failed");
+        return;
+    }
+    if ((err = read_ip_header(tun)) < 0) {
+        log_errorf(__func__, "failed");
+    }
+}
