@@ -10,5 +10,6 @@
 #define _NETLIB_H
 
 int tun_alloc(char *dev);
+void hexstr(char *dest, void *addr, int size_n);
 
 #endif
