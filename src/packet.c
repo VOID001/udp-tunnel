@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <netinet/udp.h>
 #include <errno.h>
+#include <assert.h>
 
 #include "log.h"
 #include "netlib.h"
@@ -33,16 +34,41 @@ int read_ip_header(int fd) {
     char buffer[32];
     char hexbuff[4096];
     int nread;
-    if((nread = read(fd, buffer, 32)) < 0) {
+    if ((nread = read(fd, buffer, 32)) < 0) {
         log_errorf(__func__, "read call error %s", strerror(errno));
         return nread;
     }
     hexstr(hexbuff, (void *)buffer, 32);
-    log_infof(__func__, "bytes:\n %s", hexstr);
+    log_infof(__func__, "bytes:\n%s", hexbuff);
     return 0;
 }
 
-void hexstr(char *dest, void *addr, int size_n) {
-    //TODO: convert bytes in addr to hexdump format
-    // and output to dest
+void hexstr(char *dest, void *addr, size_t size_n) {
+    const uint8_t *c = addr;
+    assert(addr);
+    printf("Dumping %zu bytes from %p:\n", size_n, addr);
+    char *p = dest;
+    while (size_n > 0) {
+        unsigned i;
+        for (i = 0; i < 16; i++) {
+            if (i < size_n)
+                sprintf(p, "%02x ", c[i]);
+            else
+                sprintf(p, "   ");
+            p += 3;
+        }
+        for (i = 0; i < 16; i++) {
+            if (i < size_n)
+                sprintf(p, "%c", c[i] >= 32 && c[i] < 127 ? c[i] : '.');
+            else
+                sprintf(p, " ");
+            p++;
+        }
+        sprintf(p++, "\n");
+        c += 16;
+        if (size_n <= 16)
+            break;
+        size_n -= 16;
+    }
+    return;
 }

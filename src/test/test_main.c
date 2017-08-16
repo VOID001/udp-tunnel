@@ -5,7 +5,7 @@
     > Mail: ################### 
     > Created Time: Wed 16 Aug 2017 02:03:37 PM CST
  ************************************************************************/
-#include<stdio.h>
+#include <stdio.h>
 #include "test.h"
 #include "log.h"
 
@@ -16,5 +16,6 @@ int main(void) {
 
     init_logger("stderr", DEBUG);
     test_tun_alloc();
+    test_read_ip_header();
 }
 
