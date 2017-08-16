@@ -15,7 +15,7 @@ void test_logging() {
     log_warnf(__func__, "logger print warning.");
     log_debugf(__func__, "logger print debug.");
 
-    init_logger("logfile", DEBUG);
+    init_logger("/tmp/logfile", DEBUG);
     log_infof(__func__, "logger print info.");
     log_errorf(__func__, "logger print error.");
     log_warnf(__func__, "logger print warning.");

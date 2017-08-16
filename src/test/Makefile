@@ -1,10 +1,11 @@
+include ../Makefile.header
 TESTOBJS = test_log.o test_main.o
-OBJS = ../util.o
+OBJS = ../log.o
 
 
-CFLAGS = -Wall -Wextra -Waddress -Wconversion -g
-CPPFLAGS = -I../include
-CC = gcc
+#CFLAGS = -Wall -Wextra -Waddress -Wconversion -g
+#CPPFLAGS = -I../include
+#CC = gcc
 
 testsuite: $(OBJS) $(TESTOBJS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $^

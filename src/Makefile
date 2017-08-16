@@ -1,7 +1,9 @@
 include Makefile.header
-OBJS = util.o
+OBJS = log.o
 
-.PHONY = clean test
+.PHONY = clean test all
+
+all:
 
 .c.o:
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $*.o $<
