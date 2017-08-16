@@ -1,9 +1,14 @@
 include Makefile.header
-OBJS = log.o
+
+OBJS = log.o main.o
 
 .PHONY = clean test all
 
-all:
+run: udp-tunnel
+	./udp-tunnel
+
+udp-tunnel: $(OBJS)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $^
 
 .c.o:
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $*.o $<

@@ -1,4 +1,5 @@
 *.o
 testsuite
 udp-tun
+udp-tunnel
 
