@@ -21,5 +21,7 @@ int main(void) {
     log_infof(__func__, "running test_read_ip_header");
     test_read_ip_header();
     log_infof(__func__, "running test_read_ip_header done");
+    test_buf_read();
+    log_infof(__func__, "running test_buffer done");
 }
 

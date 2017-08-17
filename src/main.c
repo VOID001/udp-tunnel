@@ -1,8 +1,10 @@
 /*
  * Main event loop
  */
+#include <stdlib.h>
 #include "log.h"
 #include "netlib.h"
+#include "buffer.h"
 
 int main(int argc, char **argv) {
     int tun_fd = -1;
@@ -17,9 +19,13 @@ int main(int argc, char **argv) {
     
     // Waiting for the package to be processed
     // start the pacakge loop
+    
+    IPBuf *ipbuf;
+    ipbuf = (IPBuf *)malloc(sizeof(ipbuf));
+    ipbuf->buf = (char *)malloc(sizeof(char) * MAX_BUF_LEN);
     while(1) {
         // first read the udp header
-        read_ip_header(tun_fd);
+        read_ip_header(ipbuf, tun_fd);
     }
 
     // Logic part

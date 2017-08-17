@@ -1,6 +1,6 @@
 include ../Makefile.header
-TESTOBJS = test_log.o test_main.o test_net.o
-OBJS = ../log.o ../tun_alloc.o ../packet.o
+TESTOBJS = test_log.o test_main.o test_net.o test_buffer.o
+OBJS = ../log.o ../tun_alloc.o ../packet.o ../buffer.o
 
 
 #CFLAGS = -Wall -Wextra -Waddress -Wconversion -g
