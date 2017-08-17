@@ -12,8 +12,6 @@
 #include <string.h>
 #include <stddef.h>
 #include <time.h>
-#include <stdio.h>
-#include <stdio.h>
 #include <netinet/udp.h>
 #include <errno.h>
 #include <assert.h>
