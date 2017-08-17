@@ -5,12 +5,11 @@
 
 typedef enum { pass, failure, error } run_state;
 
-extern char test_log[10240];
 extern unsigned test_ret_temp;
 
 void run_test(void (*pf[])(), size_t size);
-void printProcess(run_state);
-void assertTrue(int);
+void print_process(run_state);
+void assert_true(int);
 
 void test_logging();
 void test_example();

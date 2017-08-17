@@ -24,8 +24,8 @@ void test_tun_alloc() {
     char tun_name[] = "udptun";
     int tun;
     if ((tun = tun_alloc(tun_name)) < 0) {
-        log_errorf(__func__, "errored");
-        printProcess(error);
+        log_errorf(__func__, "An error occurred while allocating tun.");
+        print_process(error);
     }
     close(tun);
 }
@@ -34,13 +34,13 @@ void test_read_ip_header() {
     char tun_name[] = "udptun";
     int tun, err;
     if ((tun = tun_alloc(tun_name)) < 0) {
-        log_errorf(__func__, "errored");
-        printProcess(error);
+        log_errorf(__func__, "An error occurred while allocating tun.");
+        print_process(error);
         return;
     }
     if ((err = read_ip_header(tun)) < 0) {
-        log_errorf(__func__, "errored");
-        printProcess(error);
+        log_errorf(__func__, "An error occurred while reading ip header.");
+        print_process(error);
     }
     close(tun);
 }

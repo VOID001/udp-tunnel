@@ -10,7 +10,11 @@
 #include "log.h"
 
 unsigned test_ret_temp = 1;
-unsigned count[3] = {0, 0, 0}; // assertions, failures, errors
+
+#define ASSERTION 0
+#define FAILURE 1
+#define ERROR 2
+unsigned test_res_map[3] = {0, 0, 0};
 
 int main() {
     printf("\n\033[1;38;5;4mRunning tests\n");
@@ -29,12 +33,12 @@ int main() {
     
     // Make conclusions
     printf("\n\n");
-    if (count[1] == 0 && count[2] == 0) {
+    if (test_res_map[FAILURE] == 0 && test_res_map[ERROR] == 0) {
         printf("\033[1;38;5;82mAll tests passed.");
     } else {
-        printf("\033[1;38;5;9m%d Failures, %d Errors.", count[1], count[2]);
+        printf("\033[1;38;5;9m%d Failures, %d Errors.", test_res_map[FAILURE], test_res_map[ERROR]);
     }
-    printf(" (%lu Tests, %d Assertions)\n\n", sizeof(pf) / sizeof(void(*)()), count[0]);
+    printf(" (%lu Tests, %d Assertions)\n\n", sizeof(pf) / sizeof(void(*)()), test_res_map[ASSERTION]);
     
     // Print logs
     FILE *fp;
@@ -46,14 +50,14 @@ int main() {
     }
     
     // Claim conclusion again for convenience. :)
-    if (count[1] == 0 && count[2] == 0) {
+    if (test_res_map[FAILURE] == 0 && test_res_map[ERROR] == 0) {
         printf("\033[1;38;5;82mAll tests passed.");
     } else {
-        printf("\033[1;38;5;9m%d Failures, %d Errors.", count[1], count[2]);
+        printf("\033[1;38;5;9m%d Failures, %d Errors.", test_res_map[FAILURE], test_res_map[ERROR]);
     }
-    printf(" (%lu Tests, %d Assertions)\n\n", sizeof(pf) / sizeof(void(*)()), count[0]);
+    printf(" (%lu Tests, %d Assertions)\n\n", sizeof(pf) / sizeof(void(*)()), test_res_map[ASSERTION]);
     
-    if (count[1] == 0 && count[2] == 0)
+    if (test_res_map[FAILURE] == 0 && test_res_map[ERROR] == 0)
         return 0;
     else
         return -1;
@@ -66,34 +70,34 @@ void run_test(void (*pf[])(), size_t size) {
         pf[i]();
         log_infof(__func__, "Run test #%d done.\n", i);
         if (test_ret_temp)
-            printProcess(pass);
+            print_process(pass);
         test_ret_temp = 1;
     }
 }
 
-void assertTrue(int expr) {
-    count[0]++;
+void assert_true(int expr) {
+    test_res_map[ASSERTION]++;
     if (!expr) {
         // TODO: This __func__ is meaningless.
         // We shall at least show the function name of the caller
         log_errorf(__func__, "Assert Failure.");
-        printProcess(failure);
+        print_process(failure);
     }
 }
 
-void printProcess(run_state state) {
+void print_process(run_state state) {
     switch(state) {
         case pass:
             printf("\033[1;38;5;4m.");
             break;
         case failure:
             test_ret_temp = 0;
-            count[1]++;
+            test_res_map[FAILURE]++;
             printf("\033[1;38;5;9mF");
             break;
         case error:
             test_ret_temp = 0;
-            count[2]++;
+            test_res_map[ERROR]++;
             printf("\033[1;38;5;9mE");
             break;
     }
