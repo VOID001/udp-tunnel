@@ -34,7 +34,6 @@ int buf_read(IPBuf *ipbuf, int fd, char *buffer, size_t nread) {
     if (ipbuf == NULL) {
         return read(fd, buffer, nread);
     }
-    log_debugf(__func__, "MARK %d", __LINE__);
 
     if (!ipbuf->length || ipbuf->offset == ipbuf->length) {
         // Read from fd
@@ -45,17 +44,12 @@ int buf_read(IPBuf *ipbuf, int fd, char *buffer, size_t nread) {
         ipbuf->length = actual_read;
         ipbuf->offset = 0;
     }
-    log_debugf(__func__, "MARK %d", __LINE__);
     actual_read = nread;
-    log_debugf(__func__, "actual_read = %d", actual_read);
-    log_debugf(__func__, "ipbuf->length = %d", ipbuf->length);
-    log_debugf(__func__, "ipbuf->offset = %d", ipbuf->offset);
     if (ipbuf->offset + nread > ipbuf->length) {
         actual_read = ipbuf->length - ipbuf->offset;
         discard = 1;
     }
 
-    log_debugf(__func__, "MARK %d", __LINE__);
     log_debugf(__func__, "memcpy(%x, %x, %d)", buffer, ipbuf->buf + ipbuf->offset, sizeof(char) * actual_read);
 
     if(memcpy(buffer, ipbuf->buf + ipbuf->offset, sizeof(char) * actual_read) == NULL) {
@@ -65,7 +59,6 @@ int buf_read(IPBuf *ipbuf, int fd, char *buffer, size_t nread) {
 
     ipbuf->offset += actual_read ;
 
-    log_debugf(__func__, "MARK %d", __LINE__);
     if (discard) {
         buf_clear(ipbuf);
     }

@@ -21,6 +21,7 @@
 #include "log.h"
 #include "buffer.h"
 #include "test.h"
+#include "netlib.h"
 
 const char buffer[] = {
     'b', 'u', 'f', 'f', 'e', 0
@@ -32,8 +33,10 @@ char resbuf[6] = {};
 int mock_packet();
 
 void test_buf_read() {
+    char hexbuff[1024];
     char *tmpfile = tmpnam(NULL);
     int fd = mock_packet(tmpfile);
+    // try
     int tmp;
     // TODO: Add a function to init ipbuf
     IPBuf *ipbuf;
@@ -50,6 +53,8 @@ void test_buf_read() {
         print_process(failure);
         return ;
     }
+    hexstr(hexbuff, (void *)resbuf, 6);
+    log_debugf(__func__, "bytes:\n%s", hexbuff);
 
     // #2 When buffer is not empty, read from buffer
     log_infof(__func__, "#2 When buffer is not empty, read from buffer");
@@ -78,6 +83,10 @@ void test_buf_read() {
         log_errorf(__func__, "actual_read expceted to be %d, %d returned", sizeof(buffer) - 2, tmp);
         print_process(failure);
     }
+
+    hexstr(hexbuff, (void *)resbuf, 4);
+    log_debugf(__func__, "bytes:\n%s", hexbuff);
+
     close(fd);
     return ;
 }
@@ -104,5 +113,6 @@ int mock_packet(char *file) {
     // TODO: Maybe we do not need dup?
     newfd = dup(fd);
     close(fd);
+    lseek(newfd, 0, SEEK_SET);
     return newfd;
 }
