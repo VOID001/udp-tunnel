@@ -1,5 +1,5 @@
 include ../Makefile.header
-TESTOBJS = test_log.o test_main.o test_net.o
+TESTOBJS = test_log.o test_main.o test_net.o test_example.o
 OBJS = ../log.o ../tun_alloc.o ../packet.o
 
 

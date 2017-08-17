@@ -46,7 +46,7 @@ int read_ip_header(int fd) {
 void hexstr(char *dest, void *addr, size_t size_n) {
     const uint8_t *c = addr;
     assert(addr);
-    printf("Dumping %zu bytes from %p:\n", size_n, addr);
+    log_infof(__func__, "Dumping %zu bytes from %p:\n", size_n, addr);
     char *p = dest;
     while (size_n > 0) {
         unsigned i;
