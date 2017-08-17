@@ -7,7 +7,7 @@
 int main(int argc, char **argv) {
     int tun_fd = -1;
     char tun_name[] = "udptun";
-    init_logger("stderr", INFO);
+    init_logger("stderr", DEBUG);
     log_infof(__func__, "udp-tun started, version 0.1");
     // TODO: get options
 
@@ -19,6 +19,7 @@ int main(int argc, char **argv) {
     // start the pacakge loop
     while(1) {
         // first read the udp header
+        read_ip_header(tun_fd);
     }
 
     // Logic part
