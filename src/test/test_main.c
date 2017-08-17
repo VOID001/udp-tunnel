@@ -15,7 +15,11 @@ int main(void) {
     test_logging();
 
     init_logger("stderr", DEBUG);
+    log_infof(__func__, "running test_tun_alloc");
     test_tun_alloc();
+    log_infof(__func__, "running test_tun_alloc done");
+    log_infof(__func__, "running test_read_ip_header");
     test_read_ip_header();
+    log_infof(__func__, "running test_read_ip_header done");
 }
 

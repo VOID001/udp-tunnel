@@ -21,11 +21,12 @@
 #include "netlib.h"
 
 void test_tun_alloc() {
-    char tun_name[] = "test_tun";
-    int err;
-    if ((err = tun_alloc(tun_name)) < 0) {
+    char tun_name[] = "udptun";
+    int tun;
+    if ((tun = tun_alloc(tun_name)) < 0) {
         log_errorf(__func__, "failed");
     }
+    close(tun);
 }
 
 void test_read_ip_header() {
@@ -38,4 +39,5 @@ void test_read_ip_header() {
     if ((err = read_ip_header(tun)) < 0) {
         log_errorf(__func__, "failed");
     }
+    close(tun);
 }

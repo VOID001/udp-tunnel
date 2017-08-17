@@ -32,6 +32,7 @@ int tun_alloc(char *dev) {
         log_fatalf(__func__, "fail to open clone device tun, %s", strerror(errno));
         // program exit
     }
+    log_debugf(__func__, "tunnel fd = %d", fd);
     ifr.ifr_flags = IFF_TUN;
     strncpy(ifr.ifr_name, dev, IFNAMSIZ);
 
@@ -42,7 +43,7 @@ int tun_alloc(char *dev) {
 
     if((err = ioctl(fd, TUNSETPERSIST, 1)) < 0) {
         close(fd);
-        log_fatalf(__func__, "fail to create tunnel, %s", strerror(errno));
+        log_fatalf(__func__, "fail to set tunnel to persist, %s", strerror(errno));
     }
 
     strcpy(dev, ifr.ifr_name);
