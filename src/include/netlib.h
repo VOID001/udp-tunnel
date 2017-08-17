@@ -9,9 +9,10 @@
 #ifndef _NETLIB_H
 #define _NETLIB_H
 #include <stddef.h>
+#include "buffer.h"
 
 int tun_alloc(char *dev);
-int read_ip_header(int fd);
+int read_ip_header(IPBuf *ipbuf, int fd);
 void hexstr(char *dest, void *addr, size_t size_n);
 
 #endif
