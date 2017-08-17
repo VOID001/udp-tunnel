@@ -34,6 +34,7 @@ int buf_read(IPBuf *ipbuf, int fd, char *buffer, size_t nread) {
     if (ipbuf == NULL) {
         return read(fd, buffer, nread);
     }
+    log_debugf(__func__, "MARK %d", __LINE__);
 
     if (!ipbuf->length || ipbuf->offset == ipbuf->length) {
         // Read from fd
@@ -44,18 +45,27 @@ int buf_read(IPBuf *ipbuf, int fd, char *buffer, size_t nread) {
         ipbuf->length = actual_read;
         ipbuf->offset = 0;
     }
+    log_debugf(__func__, "MARK %d", __LINE__);
     actual_read = nread;
+    log_debugf(__func__, "actual_read = %d", actual_read);
+    log_debugf(__func__, "ipbuf->length = %d", ipbuf->length);
+    log_debugf(__func__, "ipbuf->offset = %d", ipbuf->offset);
     if (ipbuf->offset + nread > ipbuf->length) {
         actual_read = ipbuf->length - ipbuf->offset;
         discard = 1;
     }
 
+    log_debugf(__func__, "MARK %d", __LINE__);
+    log_debugf(__func__, "memcpy(%x, %x, %d)", buffer, ipbuf->buf + ipbuf->offset, sizeof(char) * actual_read);
+
     if(memcpy(buffer, ipbuf->buf + ipbuf->offset, sizeof(char) * actual_read) == NULL) {
         log_errorf(__func__, "memcpy error, no enough memory");
         return -1;
     }
+
     ipbuf->offset += actual_read ;
 
+    log_debugf(__func__, "MARK %d", __LINE__);
     if (discard) {
         buf_clear(ipbuf);
     }
@@ -65,6 +75,8 @@ int buf_read(IPBuf *ipbuf, int fd, char *buffer, size_t nread) {
 // buf_seek when seek to end return -1
 // else return 0
 int buf_seek(IPBuf *ipbuf, size_t seek_count) {
+    if (ipbuf == NULL)
+        return 0;
     if (ipbuf->offset + seek_count > ipbuf->length) {
         ipbuf->offset = ipbuf->length;
         return -1;
@@ -75,6 +87,9 @@ int buf_seek(IPBuf *ipbuf, size_t seek_count) {
 
 // buf_clear will clear the ipbuf
 void buf_clear(IPBuf *ipbuf) {
+    if (ipbuf == NULL) {
+        return ;
+    }
     ipbuf->length = 0;
     ipbuf->offset = 0;
 }

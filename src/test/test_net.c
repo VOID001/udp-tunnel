@@ -40,7 +40,7 @@ void test_read_ip_header() {
         log_errorf(__func__, "failed");
         return;
     }
-    if ((err = read_ip_header(ipbuf, tun)) < 0) {
+    if ((err = read_ip_header(NULL, tun)) < 0) {
         log_errorf(__func__, "failed");
     }
     close(tun);

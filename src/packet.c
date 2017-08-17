@@ -44,8 +44,6 @@ int read_ip_header(IPBuf *ipbuf,int fd) {
     // First read & discard tun header
     // We can only read a WHOLE packet once, cannot read in stream
     // TODO: How to read it in stream?
-    // ipbuf = (IPBuf *)malloc(sizeof(ipbuf));
-    ipbuf->length = 0;
     memset(buffer, 0, sizeof(buffer));
 
     if ((nread = buf_read(ipbuf, fd, buffer, 4)) < 0) {

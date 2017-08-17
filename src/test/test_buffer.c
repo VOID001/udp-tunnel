@@ -22,7 +22,7 @@
 #include "buffer.h"
 
 const char buffer[] = {
-    0x01, 0x0b, 0x0d, 0x0e, 0x05, 0xac
+    'b', 'u', 'f', 'f', 'e', 0
 };
 
 char resbuf[6] = {};
@@ -34,18 +34,23 @@ void test_buf_read() {
     char *tmpfile = tmpnam(NULL);
     int fd = mock_packet(tmpfile);
     int tmp;
+    // TODO: Add a function to init ipbuf
     IPBuf *ipbuf;
     ipbuf = (IPBuf *)malloc(sizeof(ipbuf));
     ipbuf->buf = (char *)malloc(sizeof(char) * MAX_BUF_LEN);
+    ipbuf->length = 0;
+    ipbuf->offset = 0;
     // #1 When buffer is empty, read a whole packet
+    log_infof(__func__, "#1 When buffer is empty, read a whole packet");
     buf_read(ipbuf, fd, resbuf, 6);
 
     if ((tmp = strcmp(resbuf, buffer)) != 0) {
-        log_errorf(__func__, "strcmp expect to return 0, %d returned", tmp);
+        log_errorf(__func__, "strcmp expect to return 0, %d returned\nresbuf = %s, buffer = %s", tmp, resbuf, buffer);
         return ;
     }
 
     // #2 When buffer is not empty, read from buffer
+    log_infof(__func__, "#2 When buffer is not empty, read from buffer");
     if (lseek(fd, 0, SEEK_SET) < 0) {
         log_errorf(__func__, "lseek error: %s", strerror(errno));
         return ;
@@ -59,6 +64,7 @@ void test_buf_read() {
     }
 
     // #3 When buffer is not empty, but read till end, read all
+    log_infof(__func__, "#3 When buffer is not empty but read till end, read all");
     if (lseek(fd, 0, SEEK_SET) < 0) {
         log_errorf(__func__, "lseek error: %s", strerror(errno));
         return ;
@@ -86,7 +92,7 @@ int mock_packet(char *file) {
         log_errorf(__func__, "open tmpfile error: %s", strerror(errno));
         return -1;
     }
-    if(write(fd, buffer, sizeof(buffer)) !=  sizeof(buffer)) {
+    if (write(fd, buffer, sizeof(buffer)) !=  sizeof(buffer)) {
         log_errorf(__func__, "write packet to tmpfile error: %s", strerror(errno));
         return -1;
     }
