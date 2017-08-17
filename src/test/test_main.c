@@ -23,7 +23,8 @@ int main() {
     void (*pf[])() = {
         &test_example,
         &test_tun_alloc,
-        &test_read_ip_header
+        &test_read_ip_header,
+        &test_buf_read,
     };
     
     // Run tests

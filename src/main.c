@@ -23,6 +23,8 @@ int main(int argc, char **argv) {
     IPBuf *ipbuf;
     ipbuf = (IPBuf *)malloc(sizeof(ipbuf));
     ipbuf->buf = (char *)malloc(sizeof(char) * MAX_BUF_LEN);
+    ipbuf->offset = 0;
+    ipbuf->length = 0;
     while(1) {
         // first read the udp header
         read_ip_header(ipbuf, tun_fd);

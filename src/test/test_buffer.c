@@ -20,6 +20,7 @@
 
 #include "log.h"
 #include "buffer.h"
+#include "test.h"
 
 const char buffer[] = {
     'b', 'u', 'f', 'f', 'e', 0
@@ -46,6 +47,7 @@ void test_buf_read() {
 
     if ((tmp = strcmp(resbuf, buffer)) != 0) {
         log_errorf(__func__, "strcmp expect to return 0, %d returned\nresbuf = %s, buffer = %s", tmp, resbuf, buffer);
+        print_process(failure);
         return ;
     }
 
@@ -53,6 +55,7 @@ void test_buf_read() {
     log_infof(__func__, "#2 When buffer is not empty, read from buffer");
     if (lseek(fd, 0, SEEK_SET) < 0) {
         log_errorf(__func__, "lseek error: %s", strerror(errno));
+        print_process(error);
         return ;
     }
     buf_clear(ipbuf);
@@ -60,6 +63,7 @@ void test_buf_read() {
     buf_read(ipbuf, fd, resbuf, 1);
     if (resbuf[0] != buffer[1]) {
         log_errorf(__func__, "resbuf expect to be 0x%02x, 0x%02x returned", buffer[1], resbuf[0]);
+        print_process(failure);
         return ;
     }
 
@@ -72,6 +76,7 @@ void test_buf_read() {
     tmp = buf_read(ipbuf, fd, resbuf, 200);
     if (tmp != sizeof(buffer) - 2) {
         log_errorf(__func__, "actual_read expceted to be %d, %d returned", sizeof(buffer) - 2, tmp);
+        print_process(failure);
     }
     close(fd);
     return ;

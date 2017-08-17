@@ -42,7 +42,7 @@ void test_read_ip_header() {
         print_process(error);
         return;
     }
-    if ((err = read_ip_header(tun)) < 0) {
+    if ((err = read_ip_header(NULL, tun)) < 0) {
         log_errorf(__func__, "An error occurred while reading ip header.");
         print_process(error);
     }
