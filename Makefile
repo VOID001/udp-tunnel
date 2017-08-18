@@ -13,7 +13,8 @@ TARGET = $(BUILD_DIR)/udp-tunnel
 
 export
 
-default: 
+.PHONY: build
+build:
 	mkdir build &>/dev/null || true
 	$(MAKE) -C src
 
