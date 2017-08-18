@@ -1,22 +1,20 @@
-TEST_SRCS = $(wildcard *.c)
-# Excluding outter main
-TEST_OBJS = $(filter-out $(BUILD_DIR)/main.o, $(OBJS))
-TEST_OBJS += $(patsubst %.c, $(BUILD_DIR)/%.o, $(notdir $(TEST_SRCS)))
+include ../Makefile.header
 
-TEST_TARGET = $(BUILD_DIR)/testsuite
+TESTOBJS = test_log.o test_main.o test_net.o test_example.o test_buffer.o
+OBJS = ../log.o ../tun_alloc.o ../packet.o ../buffer.o
 
-default:
-	$(MAKE) $(TEST_TARGET)
-	$(TEST_TARGET)
 
-$(TEST_TARGET): $(TEST_OBJS)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $^ -o $@
-	$(SETCAP) $@
 
-$(BUILD_DIR)/%.o: %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $^ -o $@
+#CFLAGS = -Wall -Wextra -Waddress -Wconversion -g
+#CPPFLAGS = -I../include
+#CC = gcc
 
-.PHONY: clean
+testsuite: $(OBJS) $(TESTOBJS)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $^
+	sudo setcap CAP_NET_ADMIN+eip testsuite
+
+.c.o:
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $*.o $<
+
 clean:
-	$(DEL) $(TEST_OBJS)
-	$(DEL) $(TEST_TARGET)
+	rm -f $(TESTOBJS) testsuite

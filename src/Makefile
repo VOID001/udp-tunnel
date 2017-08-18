@@ -1,30 +1,23 @@
-CC = gcc
-CXX = g++
-CFLAGS = -Wall -Wextra -Waddress -Wconversion -g
-LDFLAGS =
-CPPFLAGS = -I$(CURDIR)/include
+include Makefile.header
 
-SRCS = $(wildcard *.c)
-OBJS = $(patsubst %.c, $(BUILD_DIR)/%.o, $(notdir $(SRCS)))
+OBJS = log.o main.o tun_alloc.o packet.o buffer.o
 
-# Export all varibles
-export
+.PHONY = clean test all
 
-default: $(TARGET)
+run: udp-tunnel
+	./udp-tunnel
 
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $^ -o $@
-	$(SETCAP) $@
+udp-tunnel: $(OBJS)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $^
+	sudo setcap CAP_NET_ADMIN+eip udp-tunnel
 
-$(BUILD_DIR)/%.o: %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $^ -o $@
+.c.o:
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $*.o $<
 
-.PHONY: test
-test: $(OBJS)
-	$(MAKE) -C test
+run_test:
+	make -C test testsuite
+	test/testsuite
 
-.PHONY: clean
 clean:
-	$(DEL) $(OBJS)
-	$(DEL) $(TARGET)
-	$(MAKE) -C test clean
+	- rm -f $(OBJS)
+	- make -C test clean
