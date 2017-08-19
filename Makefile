@@ -13,25 +13,17 @@ TARGET = $(BUILD_DIR)/udp-tunnel
 
 export
 
-default: 
-	mkdir build &>/dev/null || true
+default:
+	- mkdir build
 	$(MAKE) -C src
-
-.PHONY: if
-if:
-	$(IFUTIL) tuntap add mode tun dev $(DEV)
-	$(IFUTIL) addr add $(IP)/$(CIDR) dev $(DEV)
-	$(IFUTIL) link set dev $(DEV) up
-
-.PHONY: unif
-unif:
-	sudo ip tuntap del mode tun dev $(DEV)
 
 .PHONY: run
 run: $(TARGET)
-	$(MAKE) if
-	$(TARGET) || true # TODO: how to continue?
-	$(MAKE) unif
+	- $(IFUTIL) tuntap add mode tun dev $(DEV)
+	- $(IFUTIL) addr add $(IP)/$(CIDR) dev $(DEV)
+	- $(IFUTIL) link set dev $(DEV) up
+	trap "$(IFUTIL) tuntap del mode tun dev $(DEV)" INT && \
+		$(TARGET)
 
 .PHONY: test
 test:
