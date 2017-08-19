@@ -49,7 +49,7 @@ int read_ip_header(IPBuf *ipbuf,int fd) {
         return nread;
     }
     hexstr(hexbuff, (void *)buffer, nread);
-    // log_debugf(__func__, "bytes:\n%s", hexbuff);
+    log_debugf(__func__, "bytes:\n%s", hexbuff);
 
     // Check if it's a UDP packet, if not, return
     if(*(int32_t *)buffer != 0x00080000) {
@@ -75,6 +75,7 @@ int read_ip_header(IPBuf *ipbuf,int fd) {
 
     hexstr(hexbuff, (void *)buffer, 24);
     log_debugf(__func__, "bytes:\n%s", hexbuff);
+
     return ip_packet_len;
 }
 
