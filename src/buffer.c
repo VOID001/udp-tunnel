@@ -38,7 +38,7 @@ int buf_read(IPBuf *ipbuf, int fd, char *buffer, size_t nread) {
     if (!ipbuf->length || ipbuf->offset == ipbuf->length) {
         // Read from fd
         if ((actual_read = read(fd, ipbuf->buf, MAX_IP_PACKET)) < 0) {
-            log_errorf(__func__, "read from fd error: %s", strerror(errno));
+            log_errorf("read from fd error: %s", strerror(errno));
             return actual_read;
         }
         ipbuf->length = actual_read;
@@ -50,10 +50,10 @@ int buf_read(IPBuf *ipbuf, int fd, char *buffer, size_t nread) {
         discard = 1;
     }
 
-    log_debugf(__func__, "memcpy(%x, %x, %d)", buffer, ipbuf->buf + ipbuf->offset, sizeof(char) * actual_read);
+    log_debugf("memcpy(%x, %x, %d)", buffer, ipbuf->buf + ipbuf->offset, sizeof(char) * actual_read);
 
     if(memcpy(buffer, ipbuf->buf + ipbuf->offset, sizeof(char) * actual_read) == NULL) {
-        log_errorf(__func__, "memcpy error, no enough memory");
+        log_errorf("memcpy error, no enough memory");
         return -1;
     }
 

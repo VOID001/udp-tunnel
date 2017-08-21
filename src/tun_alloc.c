@@ -29,21 +29,21 @@ int tun_alloc(char *dev) {
 
     memset(&ifr, 0, sizeof(ifr));
     if((fd = open(tun_root, O_RDWR)) < 0) {
-        log_fatalf(__func__, "fail to open clone device tun, %s", strerror(errno));
+        log_fatalf("fail to open clone device tun, %s", strerror(errno));
         // program exit
     }
-    log_debugf(__func__, "tunnel fd = %d", fd);
+    log_debugf("tunnel fd = %d", fd);
     ifr.ifr_flags = IFF_TUN;
     strncpy(ifr.ifr_name, dev, IFNAMSIZ);
 
     if((err = ioctl(fd, TUNSETIFF, (void *)&ifr)) < 0) {
         close(fd);
-        log_fatalf(__func__, "fail to create tunnel, %s", strerror(errno));
+        log_fatalf("fail to create tunnel, %s", strerror(errno));
     }
 
     if((err = ioctl(fd, TUNSETPERSIST, 1)) < 0) {
         close(fd);
-        log_fatalf(__func__, "fail to set tunnel to persist, %s", strerror(errno));
+        log_fatalf("fail to set tunnel to persist, %s", strerror(errno));
     }
 
     strcpy(dev, ifr.ifr_name);

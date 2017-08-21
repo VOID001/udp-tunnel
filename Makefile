@@ -13,7 +13,7 @@ TARGET = $(BUILD_DIR)/udp-tunnel
 
 export
 
-default:
+$(TARGET):
 	- mkdir build
 	$(MAKE) -C src
 
