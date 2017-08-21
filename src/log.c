@@ -1,8 +1,8 @@
 /*************************************************************************
     > File Name: util.c
     > Author: VOID_133
-    > ################### 
-    > Mail: ################### 
+    > ###################
+    > Mail: ###################
     > Created Time: Wed 16 Aug 2017 11:19:38 AM CST
  ************************************************************************/
 #include <stdio.h>
@@ -25,7 +25,7 @@ char log_level_str[][30] = {
     "\033[1;38;5;9mFATAL"
 };
 
-FILE *LOGFILE; 
+FILE *LOGFILE;
 LogLevel LOGLV;
 
 int init_logger(char *logfile, LogLevel lv) {
@@ -41,7 +41,7 @@ int init_logger(char *logfile, LogLevel lv) {
     // Logging to file
     LOGFILE = fopen(logfile, "a");
     if(LOGFILE == NULL) {
-        return -1; 
+        return -1;
     }
     return 0;
 }
@@ -56,8 +56,8 @@ void vlogprintf(LogLevel lv, const char *fn_name, char *fmt, va_list ap) {
     if(lv < LOGLV)
         return ;
 
-    time(&rawtime); 
-    timeinfo = localtime(&rawtime); 
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
     timecut = asctime(timeinfo);
     timecut[strlen(timecut) - 1] = 0;
 
@@ -71,7 +71,7 @@ void vlogprintf(LogLevel lv, const char *fn_name, char *fmt, va_list ap) {
 // Below are logging functions
 void log_infof(const char *fn_name, char *fmt, ...) {
     va_list ap;
-    va_start(ap, fmt);     
+    va_start(ap, fmt);
     vlogprintf(INFO, fn_name, fmt, ap);
     va_end(ap);
 
@@ -80,7 +80,7 @@ void log_infof(const char *fn_name, char *fmt, ...) {
 
 void log_errorf(const char *fn_name, char *fmt, ...) {
     va_list ap;
-    va_start(ap, fmt);     
+    va_start(ap, fmt);
     vlogprintf(ERROR, fn_name, fmt, ap);
     va_end(ap);
 
@@ -89,7 +89,7 @@ void log_errorf(const char *fn_name, char *fmt, ...) {
 
 void log_warnf(const char *fn_name, char *fmt, ...) {
     va_list ap;
-    va_start(ap, fmt);     
+    va_start(ap, fmt);
     vlogprintf(WARN, fn_name, fmt, ap);
     va_end(ap);
 
@@ -98,7 +98,7 @@ void log_warnf(const char *fn_name, char *fmt, ...) {
 
 void log_debugf(const char *fn_name, char *fmt, ...) {
     va_list ap;
-    va_start(ap, fmt);     
+    va_start(ap, fmt);
     vlogprintf(DEBUG, fn_name, fmt, ap);
     va_end(ap);
 
@@ -108,7 +108,7 @@ void log_debugf(const char *fn_name, char *fmt, ...) {
 // fatal error will make the program exit right now
 void log_fatalf(const char *fn_name, char *fmt, ...) {
     va_list ap;
-    va_start(ap, fmt);     
+    va_start(ap, fmt);
     vlogprintf(FATAL, fn_name, fmt, ap);
     va_end(ap);
     exit(-1);
