@@ -45,11 +45,11 @@ int read_ip_header(IPBuf *ipbuf,int fd) {
     memset(buffer, 0, sizeof(buffer));
 
     if ((nread = buf_read(ipbuf, fd, buffer, 4)) < 0) {
-        log_errorf(__func__, "read 4 bytes call error: %d %s", nread, strerror(errno));
+        log_errorf("read 4 bytes call error: %d %s", nread, strerror(errno));
         return nread;
     }
     hexstr(hexbuff, (void *)buffer, nread);
-    log_debugf(__func__, "bytes:\n%s", hexbuff);
+    log_debugf("bytes:\n%s", hexbuff);
 
     // Check if it's a UDP packet, if not, return
     if(*(int32_t *)buffer != 0x00080000) {
@@ -58,23 +58,23 @@ int read_ip_header(IPBuf *ipbuf,int fd) {
     }
 
     if ((nread = buf_read(ipbuf, fd, buffer, 1)) != 1) {
-        log_errorf(__func__, "read 1 byte call error: %d %s", nread, strerror(errno));
+        log_errorf("read 1 byte call error: %d %s", nread, strerror(errno));
         return nread;
     }
 
     ip_header_len = (buffer[0] & 0x0f) * 4;
-    log_debugf(__func__, "ip_header_len =  %d buffer[0] = %02x", ip_header_len, buffer[0]);
+    log_debugf("ip_header_len =  %d buffer[0] = %02x", ip_header_len, buffer[0]);
 
     if ((nread = buf_read(ipbuf, fd, buffer + nread, ip_header_len - 1)) != ip_header_len - 1) {
-        log_errorf(__func__, "read call error %s", strerror(errno));
+        log_errorf("read call error %s", strerror(errno));
         return nread;
     }
 
-    log_debugf(__func__, "ip packet len = %d buffer[1] = %02x", 0, ntohs(*(int16_t *)(buffer + 2)));
+    log_debugf("ip packet len = %d buffer[1] = %02x", 0, ntohs(*(int16_t *)(buffer + 2)));
     ip_packet_len = ntohs(*(int16_t *)(buffer + 2));
 
     hexstr(hexbuff, (void *)buffer, 24);
-    log_debugf(__func__, "bytes:\n%s", hexbuff);
+    log_debugf("bytes:\n%s", hexbuff);
 
     return ip_packet_len;
 }
@@ -82,7 +82,7 @@ int read_ip_header(IPBuf *ipbuf,int fd) {
 void hexstr(char *dest, void *addr, size_t size_n) {
     const uint8_t *c = addr;
     assert(addr);
-    // log_debugf(__func__, "Dumping %zu bytes from %p:", size_n, addr);
+    // log_debugf("Dumping %zu bytes from %p:", size_n, addr);
     char *p = dest;
     while (size_n > 0) {
         unsigned i;

@@ -10,16 +10,16 @@
 
 void test_logging() {
     init_logger("stderr", INFO);
-    log_infof(__func__, "logger print info.");
-    log_errorf(__func__, "logger print error.");
-    log_warnf(__func__, "logger print warning.");
-    log_debugf(__func__, "logger print debug.");
+    log_infof("logger print info.");
+    log_errorf("logger print error.");
+    log_warnf("logger print warning.");
+    log_debugf("logger print debug.");
 
     init_logger("/tmp/logfile", DEBUG);
-    log_infof(__func__, "logger print info.");
-    log_errorf(__func__, "logger print error.");
-    log_warnf(__func__, "logger print warning.");
-    log_debugf(__func__, "logger print debug.");
+    log_infof("logger print info.");
+    log_errorf("logger print error.");
+    log_warnf("logger print warning.");
+    log_debugf("logger print debug.");
 
     return ;
 }

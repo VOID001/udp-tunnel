@@ -67,9 +67,9 @@ int main() {
 void run_test(void (*pf[])(), size_t size) {
     unsigned i;
     for(i = 0; i < size / sizeof(void(*)()); ++i) {
-        log_infof(__func__, "Running test #%d...\n", i);
+        log_infof("Running test #%d...\n", i);
         pf[i]();
-        log_infof(__func__, "Run test #%d done.\n", i);
+        log_infof("Run test #%d done.\n", i);
         if (test_ret_temp)
             print_process(pass);
         test_ret_temp = 1;
@@ -82,7 +82,7 @@ void assert_true(int expr) {
     if (!expr) {
         // TODO: This __func__ is meaningless.
         // We shall at least show the function name of the caller
-        log_errorf(__func__, "Assert Failure.");
+        log_errorf("Assert Failure.");
         print_process(failure);
     }
 }
